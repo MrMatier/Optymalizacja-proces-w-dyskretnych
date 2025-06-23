@@ -40,7 +40,7 @@ def generate_flowshop_instance(n_jobs, n_machines, rng):
 #f celu oblicza Cmax dla danej permutacji zadan
 def compute_Cmax(permutation, p):
     m = len(p[0])                     #liczba maszyn
-    C = [[0]*len(permutation) for _ in range(m)]
+    C = [[0]*len(permutation) for l in range(m)]
     for idx, job in enumerate(permutation):
         for machine in range(m):
             prev_job_end   = C[machine][idx-1] if idx>0 else 0
