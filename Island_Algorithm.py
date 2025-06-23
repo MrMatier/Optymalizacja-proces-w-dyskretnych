@@ -143,11 +143,11 @@ def test_island(num_tests=10):
     for seed in range(num_tests):
         rng = RandomNumberGenerator(seedValue=seed)
         p = generate_flowshop_instance(n_jobs=6, n_machines=3, rng=rng)
-        rng_ga = RandomNumberGenerator(seedValue=seed)
+        rng_is = RandomNumberGenerator(seedValue=seed)
         bf_perm, bf_val = brute_force(p)
-        ga_perm, ga_val = island_alg(p, rng_ga)
-        print(f"test {seed}: brute={bf_val}, island={ga_val}")
-        if ga_val == bf_val:
+        is_perm, is_val = island_alg(p, rng_is)
+        print(f"test {seed}: brute={bf_val}, island={is_val}")
+        if is_val == bf_val:
             successes += 1
     print(f"sukcesy: {successes}/{num_tests}")
 
@@ -226,8 +226,8 @@ def experiment_islands(sizes=(1,5,10), seeds=5):
             rng1 = RandomNumberGenerator(seed)
             p6 = generate_flowshop_instance(6, 3, rng1)
             _, bf = brute_force(p6)
-            _, ga = island_alg(p6, RandomNumberGenerator(seed), n_islands=ni)
-            ratios.append(ga/bf)
+            _, isla = island_alg(p6, RandomNumberGenerator(seed), n_islands=ni)
+            ratios.append(isla/bf)
         print(f"   {ni:2d}     | {sum(ratios)/len(ratios):.3f}")
 
 #rosnąca liczba zadań n_jobs a rózna ilosc wysp
@@ -251,9 +251,9 @@ def experiment_islands2(jobs_range=range(1, 11), n_machines=3, n_islands=5, seed
 
 def plot_islands2(times):
     jobs = [r[0] for r in times]
-    ga = [r[1] for r in times]
+    isla = [r[1] for r in times]
     plt.figure(figsize=(7,4))
-    plt.plot(jobs, ga, marker='o', label='island')
+    plt.plot(jobs, isla, marker='o', label='island')
     plt.xlabel('liczba zadań')
     plt.ylabel('średni czas[s]')
     plt.legend()
