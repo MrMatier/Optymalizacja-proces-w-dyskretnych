@@ -240,8 +240,7 @@ def experiment_islands2(jobs_range=range(1, 11), n_machines=3, n_islands=5, seed
             rng = RandomNumberGenerator(seed)
             p = generate_flowshop_instance(n_jobs, n_machines, rng)
             t0 = time.perf_counter()
-            island_alg(p, RandomNumberGenerator(seed),
-                       n_islands=n_islands, pop_size=10, gens=30)
+            island_alg(p, RandomNumberGenerator(seed), n_islands=n_islands, pop_size=10, gens=30)
             is_times.append(time.perf_counter() - t0)
         avg = sum(is_times)/seeds
         times.append((n_jobs, avg))
