@@ -2,6 +2,8 @@ import math
 import itertools
 import time
 import random
+from os.path import isabs
+
 import matplotlib.pyplot as plt
 from matplotlib.ticker import FuncFormatter, MultipleLocator, FormatStrFormatter
 
@@ -188,7 +190,7 @@ def island_convergence(p, rng, n_islands=3, pop_size=10, gens=15, migrate_interv
 #skalowalność bruteforce vs wyspowy w log
 def experiment_scalability(jobs_range=range(1,11), seeds=3, n_islands=3):
     print("n_jobs | brute[s]  |  island[s]")
-    brute_times, ga_times = [], []
+    brute_times, is_times = [], []
     for n in jobs_range:
         tb = tg = 0.0
         for seed in range(seeds):
@@ -197,12 +199,12 @@ def experiment_scalability(jobs_range=range(1,11), seeds=3, n_islands=3):
             t0 = time.perf_counter(); brute_force(p); tb += time.perf_counter() - t0
             t0 = time.perf_counter(); island_alg(p, RandomNumberGenerator(seed), n_islands=n_islands); tg += time.perf_counter() - t0
         avg_b, avg_g = tb/seeds, tg/seeds
-        brute_times.append(avg_b); ga_times.append(avg_g)
+        brute_times.append(avg_b); is_times.append(avg_g)
         print(f"  {n:2d}    | {avg_b:7.4f} | {avg_g:7.4f}")
 
     plt.figure(figsize=(7,4))
     plt.plot(list(jobs_range), brute_times, marker='o', label='brute force')
-    plt.plot(list(jobs_range), ga_times, marker='o', label='island')
+    plt.plot(list(jobs_range), is_times, marker='o', label='island')
     plt.yscale('log')
     plt.xlabel('liczba zadań')
     plt.ylabel('czas[s]')
@@ -234,15 +236,15 @@ def experiment_islands2(jobs_range=range(1, 11), n_machines=3, n_islands=5, seed
     print(f"\nisland, liczba wysp = {n_islands}")
     print("n_jobs | island [s]")
     for n_jobs in jobs_range:
-        ga_times = []
+        is_times = []
         for seed in range(seeds):
             rng = RandomNumberGenerator(seed)
             p = generate_flowshop_instance(n_jobs, n_machines, rng)
             t0 = time.perf_counter()
             island_alg(p, RandomNumberGenerator(seed),
                        n_islands=n_islands, pop_size=10, gens=30)
-            ga_times.append(time.perf_counter() - t0)
-        avg = sum(ga_times)/seeds
+            is_times.append(time.perf_counter() - t0)
+        avg = sum(is_times)/seeds
         times.append((n_jobs, avg))
         print(f" {n_jobs:6d} | {avg:13.4f}")
     return times
