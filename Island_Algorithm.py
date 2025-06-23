@@ -34,7 +34,7 @@ class RandomNumberGenerator:
 def generate_flowshop_instance(n_jobs, n_machines, rng):
 
     #macierz p[j][i], j czas wywkonania zadnia na maszynie i
-    p = [[rng.nextInt(1, 20) for _ in range(n_machines)] for _ in range(n_jobs)]
+    p = [[rng.nextInt(1, 20) for l in range(n_machines)] for l in range(n_jobs)]
     return p
 
 #f celu oblicza Cmax dla danej permutacji zadan
