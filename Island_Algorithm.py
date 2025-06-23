@@ -3,7 +3,6 @@ import itertools
 import time
 import random
 from os.path import isabs
-
 import matplotlib.pyplot as plt
 from matplotlib.ticker import FuncFormatter, MultipleLocator, FormatStrFormatter
 
